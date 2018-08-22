@@ -2,9 +2,9 @@
 
 const API_URL = 'https://swapi.co/api/';
 
-const defaultVueProps = endpoint => {
+const initVue = element => {
+	const endpoint = element.dataset.endpoint;
 	return {
-		self: this,
 		el: `[data-endpoint=${endpoint}]`,
 		data: {
 			endpoint,
@@ -37,5 +37,5 @@ const defaultVueProps = endpoint => {
 	}
 };
 
-const vueInstances = Array.from(document.querySelectorAll('.vue-instance'));
-vueInstances.forEach(instance => new Vue(defaultVueProps(instance.dataset.endpoint)));
+const vueElements = Array.from(document.querySelectorAll('.vue-instance'));
+vueElements.forEach(element => new Vue(initVue(element)));

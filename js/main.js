@@ -18,10 +18,10 @@ const initVue = element => {
 			getData(e) {
 				this.isLoading = true;
 				this.loadingMessage = `Loading /${endpoint}`;
-				fetch(`${API_URL}${this.endpoint}`)
+				fetch(`${API_URL}${endpoint}`)
 					.then(response => response.json())
 					.then(data => {
-						this.apiData[this.endpoint] = data;
+						this.apiData[endpoint] = data;
 						this.isLoading = false;
 					})
 					.catch(error => {

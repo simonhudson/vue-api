@@ -21,9 +21,6 @@ const initVue = element => {
 				fetch(`${API_URL}${endpoint}`)
 					.then(response => response.json())
 					.then(data => {
-						console.log('--------------------');
-						console.log(data);
-						console.log('--------------------');
 						this.apiData[endpoint] = data;
 						this.isLoading = false;
 					})

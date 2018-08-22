@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		
-		<div id="app">
+		<div id="people">
 			<button data-endpoint="people" v-on:click="getData">People</button>
 			<p v-show="isLoading">{{loadingMessage}}</p>
 			<p v-show="hasError">{{errorMessage}}</p>
@@ -19,7 +19,8 @@
 				    {{ person.name }}
 				</li>
 			</ul>
-			
+		</div>
+		<div id="films">	
 			<button data-endpoint="films" v-on:click="getData">Films</button>
 			<p v-show="isLoading">{{loadingMessage}}</p>
 			<p v-show="hasError">{{errorMessage}}</p>

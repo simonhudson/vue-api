@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link href="" rel="stylesheet" />
+		<style>
+		</style>
+	</head>
+	<body>
+		
+		<div id="app">
+			<button data-endpoint="people" v-on:click="getData">People</button>
+			<p v-show="isLoading">{{loadingMessage}}</p>
+			<p v-show="hasError">{{errorMessage}}</p>
+			<ul v-if="apiData.people">
+				<li v-for="person in apiData.people.results">
+				    {{ person.name }}
+				</li>
+			</ul>
+			
+			<button data-endpoint="films" v-on:click="getData">Films</button>
+			<p v-show="isLoading">{{loadingMessage}}</p>
+			<p v-show="hasError">{{errorMessage}}</p>
+			<ul v-if="apiData.films">
+				<li v-for="film in apiData.films.results">
+				    {{ film.title }}
+				</li>
+			</ul>
+		</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="js/main.js"></script>
+
+	</script>
+	</body>
+</html>

@@ -15,7 +15,7 @@
 			<p v-show="isLoading">{{loadingMessage}}</p>
 			<p v-show="hasError">{{errorMessage}}</p>
 			<ul v-if="apiData.people">
-				<li v-for="person in apiData.people.results">
+				<li v-for="(person, index) in apiData.people.results">
 				    {{ person.name }}
 				</li>
 			</ul>

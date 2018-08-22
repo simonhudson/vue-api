@@ -17,21 +17,18 @@ const initVue = element => {
 		methods: {
 			getData(e) {
 				this.isLoading = true;
-				const endpoint = this.endpoint;
 				this.loadingMessage = `Loading /${endpoint}`;
-				fetch(`${API_URL}${endpoint}`)
+				fetch(`${API_URL}${this.endpoint}`)
 					.then(response => response.json())
-					.then(data => this.handleResponse(data, endpoint))
-					.catch(error => this.handleError(error, endpoint));
-			},
-			handleResponse(data, endpoint) {
-				this.apiData[endpoint] = data;
-				this.isLoading = false;
-			},
-			handleError(error, endpoint) {
-				this.isLoading = false;
-				this.hasError = true;
-				this.errorMessage = `Sorry, there's been a problem getting /${endpoint}`;
+					.then(data => {
+						this.apiData[this.endpoint] = data;
+						this.isLoading = false;
+					})
+					.catch(error => {
+						this.isLoading = false;
+						this.hasError = true;
+						this.errorMessage = `Sorry, there's been a problem getting /${endpoint}`;
+					});
 			}
 		}
 	}

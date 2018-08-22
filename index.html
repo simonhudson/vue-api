@@ -10,8 +10,8 @@
 	</head>
 	<body>
 		
-		<div id="people">
-			<button data-endpoint="people" v-on:click="getData">People</button>
+		<div class="vue-instance" data-endpoint="people">
+			<button v-on:click="getData">People</button>
 			<p v-show="isLoading">{{loadingMessage}}</p>
 			<p v-show="hasError">{{errorMessage}}</p>
 			<ul v-if="apiData.people">
@@ -20,8 +20,8 @@
 				</li>
 			</ul>
 		</div>
-		<div id="films">	
-			<button data-endpoint="films" v-on:click="getData">Films</button>
+		<div class="vue-instance" data-endpoint="films">	
+			<button v-on:click="getData">Films</button>
 			<p v-show="isLoading">{{loadingMessage}}</p>
 			<p v-show="hasError">{{errorMessage}}</p>
 			<ul v-if="apiData.films">

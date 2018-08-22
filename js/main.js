@@ -1,32 +1,13 @@
 'use strict';
 
-const apiUrl = 'https://swapi.co/api/';
+const API_URL = 'https://swapi.co/api/';
 
-const getData = (instance, e) => {
-	instance.isLoading = true;
-	const endpoint = e.target.dataset.endpoint;
-	instance.loadingMessage = `Loading...`;
-	fetch(`${apiUrl}${endpoint}`)
-		.then(response => response.json())
-		.then(data => handleResponse(instance, data, endpoint))
-		.catch(error => handleError(instance, error, endpoint));
-};
-
-const handleResponse = (instance, data, endpoint) => {
-	instance.apiData[endpoint] = data;
-	instance.isLoading = false;
-};
-
-const handleError = (instance, error, endpoint) => {
-	instance.isLoading = false;
-	instance.hasError = true;
-	instance.errorMessage = `Sorry, there's been a problem getting /${endpoint}`;
-};
-
-const defaultVueProps = (selector) => {
+const defaultVueProps = endpoint => {
 	return {
-		el: selector,
+		self: this,
+		el: `[data-endpoint=${endpoint}]`,
 		data: {
+			endpoint,
 			apiData: {},
 			isLoading: false,
 			loadingMessage: '',
@@ -35,11 +16,26 @@ const defaultVueProps = (selector) => {
 		},
 		methods: {
 			getData(e) {
-				getData(this, e);
+				this.isLoading = true;
+				const endpoint = this.endpoint;
+				this.loadingMessage = `Loading /${endpoint}`;
+				fetch(`${API_URL}${endpoint}`)
+					.then(response => response.json())
+					.then(data => this.handleResponse(data, endpoint))
+					.catch(error => this.handleError(error, endpoint));
+			},
+			handleResponse(data, endpoint) {
+				this.apiData[endpoint] = data;
+				this.isLoading = false;
+			},
+			handleError(error, endpoint) {
+				this.isLoading = false;
+				this.hasError = true;
+				this.errorMessage = `Sorry, there's been a problem getting /${endpoint}`;
 			}
 		}
 	}
 };
 
-const films = new Vue(defaultVueProps('#films'));
-const people = new Vue(defaultVueProps('#people'));
+const vueInstances = Array.from(document.querySelectorAll('.vue-instance'));
+vueInstances.forEach(instance => new Vue(defaultVueProps(instance.dataset.endpoint)));

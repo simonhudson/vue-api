@@ -14,11 +14,28 @@
 			<button v-on:click="getData">People</button>
 			<p v-show="isLoading">{{loadingMessage}}</p>
 			<p v-show="hasError">{{errorMessage}}</p>
-			<ul v-if="apiData.people">
-				<li v-for="(person, index) in apiData.people.results">
-				    {{ person.name }}
-				</li>
-			</ul>
+			<div v-if="apiData.people">
+				<label for="sort-people">Sort</label>
+				<select id="sort-people" v-on:change="sort">
+					<option>Choose</option>
+					<option value="name">Name</option>
+					<option value="height">Height</option>
+					<option value="mass">Mass</option>
+				</select>
+				<table>
+					<tr>
+						<th id="name">Name</th>
+						<th id="height">Height</th>
+						<th id="mass">Mass</th>
+					</tr>
+					<tr v-for="(person, index) in apiData.people.results">
+						<td headers="name">{{ person.name }}</td>
+						<td headers="height">{{ person.height }}</td>
+						<td headers="mass">{{ person.mass }}</td>
+					</tr>
+				</table>
+				</ul>
+			</div>
 		</div>
 		<div class="vue-instance" data-endpoint="films">	
 			<button v-on:click="getData">Films</button>

@@ -18,7 +18,7 @@
 				<p v-if="currentSortKey">Current sort: <strong>{{currentSortKey}}</strong></p>
 				<label for="sort-people">Sort</label>
 				<select id="sort-people" v-on:change="sort">
-					<option>Choose</option>
+					<option value="null">Choose</option>
 					<option data-sort-direction="ascending" value="name">Name</option>
 					<option data-sort-direction="descending" value="height">Height</option>
 					<option data-sort-direction="ascending" value="mass">Mass</option>

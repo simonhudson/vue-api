@@ -50,6 +50,7 @@ const initVue = element => {
 			sort(e) {
 				const selectedOption = e.target.selectedOptions[0];
 				const sortKey = selectedOption.value;
+				if (sortKey === 'null') return;
 				const sortDirection = selectedOption.dataset.sortDirection;
 				this.apiData[endpoint].results = sortData(this.apiData[endpoint].results, sortKey, sortDirection);
 				this.currentSortKey = sortKey;

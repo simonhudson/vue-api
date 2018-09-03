@@ -2,19 +2,17 @@
 
 const API_URL = 'https://swapi.co/api/';
 
-const sortData = (data, sortKey) => {
-	if (
-		!data ||
-		!sortKey ||
-		!Array.isArray(data) ||
-		!data.length ||
-		!(data[0] instanceof Object) ||
-		typeof sortKey !== 'string'
-	)
-		return data;
+const toInt = value => parseInt(value, 10)
 
+const sortData = (data, sortKey, sortDirection = 'ascending') => {
+	const isDescending = sortDirection === 'descending';
 	const sorted = data.sort((a, b) => {
-		return ~~(a[sortKey] > b[sortKey]);
+		let sortKeyA = a[sortKey];
+		let sortKeyB = b[sortKey];
+		if (!isNaN(toInt(sortKeyA))) sortKeyA = toInt(sortKeyA);
+		if (!isNaN(toInt(sortKeyB))) sortKeyB = toInt(sortKeyB);
+		if (isDescending) return ~~(sortKeyA < sortKeyB); 
+		return ~~(sortKeyA > sortKeyB);
 	});
 	return sorted;
 };
@@ -50,8 +48,11 @@ const initVue = element => {
 					});
 			},
 			sort(e) {
-				this.currentSortKey = e.target.selectedOptions[0].value;
-				this.apiData[endpoint].results = sortData(this.apiData[endpoint].results, this.currentSortKey);
+				const selectedOption = e.target.selectedOptions[0];
+				const sortKey = selectedOption.value;
+				const sortDirection = selectedOption.dataset.sortDirection;
+				this.apiData[endpoint].results = sortData(this.apiData[endpoint].results, sortKey, sortDirection);
+				this.currentSortKey = sortKey;
 			}
 		}
 	}

@@ -15,12 +15,13 @@
 			<p v-show="isLoading">{{loadingMessage}}</p>
 			<p v-show="hasError">{{errorMessage}}</p>
 			<div v-if="apiData.people">
+				<p v-if="currentSortKey">Current sort: <strong>{{currentSortKey}}</strong></p>
 				<label for="sort-people">Sort</label>
 				<select id="sort-people" v-on:change="sort">
 					<option>Choose</option>
-					<option value="name">Name</option>
-					<option value="height">Height</option>
-					<option value="mass">Mass</option>
+					<option data-sort-direction="ascending" value="name">Name</option>
+					<option data-sort-direction="descending" value="height">Height</option>
+					<option data-sort-direction="ascending" value="mass">Mass</option>
 				</select>
 				<table>
 					<tr>

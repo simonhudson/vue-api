@@ -23,7 +23,6 @@ const initVue = element => {
 		el: `[data-endpoint=${endpoint}]`,
 		data: {
 			apiData: {},
-			currentSortKey: '',
 			endpoint,
 			errorMessage: '',
 			hasError: true,
@@ -39,6 +38,10 @@ const initVue = element => {
 					.then(response => response.json())
 					.then(data => {
 						this.apiData[endpoint] = data;
+						this.apiData[endpoint].currentSortKey = '';
+						console.log('--------------------');
+						console.log(this.apiData[endpoint]);
+						console.log('--------------------');
 						this.isLoading = false;
 					})
 					.catch(error => {
@@ -53,7 +56,10 @@ const initVue = element => {
 				if (sortKey === 'null') return;
 				const sortDirection = selectedOption.dataset.sortDirection;
 				this.apiData[endpoint].results = sortData(this.apiData[endpoint].results, sortKey, sortDirection);
-				this.currentSortKey = sortKey;
+				this.apiData[endpoint].currentSortKey = sortKey;
+				console.log('--------------------');
+				console.log(this.apiData[endpoint]);
+				console.log('--------------------');
 			}
 		}
 	}

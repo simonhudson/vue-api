@@ -15,7 +15,7 @@
 			<p v-show="isLoading">{{loadingMessage}}</p>
 			<p v-show="hasError">{{errorMessage}}</p>
 			<div v-if="apiData.people">
-				<p v-if="currentSortKey">Current sort: <strong>{{currentSortKey}}</strong></p>
+				<p v-if="apiData.people.currentSortKey">Current sort: <strong>{{apiData.people.currentSortKey}}</strong></p>
 				<label for="sort-people">Sort</label>
 				<select id="sort-people" v-on:change="sort">
 					<option value="null">Choose</option>

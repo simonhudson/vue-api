@@ -19,13 +19,13 @@ const sortData = (data, sortKey, sortDirection = DEFAULT_SORT_DIRECTION) => {
 };
 
 const initVue = element => {
-	const endpoint = element.dataset.endpoint;
+	const ENDPOINT = element.dataset.endpoint;
 	return {
-		el: `[data-endpoint=${endpoint}]`,
+		el: `[data-endpoint=${ENDPOINT}]`,
 		data: {
 			apiData: {},
 			currentSortKey: '',
-			endpoint,
+			endpoint: ENDPOINT,
 			errorMessage: '',
 			hasError: true,
 			isLoading: false,
@@ -34,18 +34,18 @@ const initVue = element => {
 		methods: {
 			getData(e) {
 				this.isLoading = true;
-				this.apiData[endpoint] = null;
-				this.loadingMessage = `Loading /${endpoint}`;
-				fetch(`${API_URL}${endpoint}`)
+				this.apiData[ENDPOINT] = null;
+				this.loadingMessage = `Loading /${ENDPOINT}`;
+				fetch(`${API_URL}${ENDPOINT}`)
 					.then(response => response.json())
 					.then(data => {
-						this.apiData[endpoint] = data;
+						this.apiData[ENDPOINT] = data;
 						this.isLoading = false;
 					})
 					.catch(error => {
 						this.isLoading = false;
 						this.hasError = true;
-						this.errorMessage = `Sorry, there's been a problem getting /${endpoint}`;
+						this.errorMessage = `Sorry, there's been a problem getting /${ENDPOINT}`;
 					});
 			},
 			sort(e) {
@@ -53,7 +53,7 @@ const initVue = element => {
 				const sortKey = selectedOption.value;
 				if (sortKey === 'null') return;
 				const sortDirection = selectedOption.dataset.sortDirection || DEFAULT_SORT_DIRECTION;
-				this.apiData[endpoint].results = sortData(this.apiData[endpoint].results, sortKey, sortDirection);
+				this.apiData[ENDPOINT].results = sortData(this.apiData[ENDPOINT].results, sortKey, sortDirection);
 				this.currentSortKey = sortKey;
 			}
 		}

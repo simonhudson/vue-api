@@ -39,37 +39,9 @@
 				<button v-if="hasNext" v-on:click="pagination($event, 'next')">Next page</button>
 			</div>
 		</div>
-		
-		<hr />
-		
-		<div class="vue-instance" data-endpoint="films">	
-			<button v-on:click="getData">Films</button>
-			<p v-show="isLoading">{{loadingMessage}}</p>
-			<p v-show="hasError">{{errorMessage}}</p>
-			<div v-if="apiData.films">
-				<p v-if="currentSortKey">Current sort: <strong>{{currentSortKey}}</strong></p>
-				<label for="sort-films">Sort</label>
-				<select id="sort-films" v-on:change="sort">
-					<option value="null">Choose</option>
-					<option value="title">Title</option>
-					<option value="release_date">Release date</option>
-				</select>
-				<table>
-					<tr>
-						<th id="title">Title</th>
-						<th id="release_date">Release date</th>
-					</tr>
-					<tr v-for="(film, index) in apiData.films.results">
-						<td headers="title">{{ film.title }}</td>
-						<td headers="release_date">{{ film.release_date }}</td>
-					</tr>
-				</table>
-			</div>
-		</div>
 
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<script src="js/main.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="js/main.js"></script>
 
-	</script>
 	</body>
 </html>

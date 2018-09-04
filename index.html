@@ -35,8 +35,13 @@
 						<td headers="mass">{{ person.mass }}</td>
 					</tr>
 				</table>
+				<button v-if="hasPrevious" v-on:click="pagination($event, 'previous')">Previous page</button>
+				<button v-if="hasNext" v-on:click="pagination($event, 'next')">Next page</button>
 			</div>
 		</div>
+		
+		<hr />
+		
 		<div class="vue-instance" data-endpoint="films">	
 			<button v-on:click="getData">Films</button>
 			<p v-show="isLoading">{{loadingMessage}}</p>

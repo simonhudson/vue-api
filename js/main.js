@@ -29,17 +29,21 @@ const initVue = element => {
 			errorMessage: '',
 			hasError: true,
 			isLoading: false,
-			loadingMessage: ''
+			loadingMessage: '',
+			hasPrevious: false,
+			hasNext: false
 		},
 		methods: {
-			getData(e) {
+			getData(e, url = `${API_URL}${ENDPOINT}`) {
 				this.isLoading = true;
-				this.apiData[ENDPOINT] = null;
 				this.loadingMessage = `Loading /${ENDPOINT}`;
-				fetch(`${API_URL}${ENDPOINT}`)
+				this.apiData[ENDPOINT] = null;
+				fetch(url)
 					.then(response => response.json())
 					.then(data => {
 						this.apiData[ENDPOINT] = data;
+						this.hasPrevious = !!this.apiData[ENDPOINT].previous;
+						this.hasNext = !!this.apiData[ENDPOINT].next;
 						this.isLoading = false;
 					})
 					.catch(error => {
@@ -55,7 +59,10 @@ const initVue = element => {
 				const sortDirection = selectedOption.dataset.sortDirection || DEFAULT_SORT_DIRECTION;
 				this.apiData[ENDPOINT].results = sortData(this.apiData[ENDPOINT].results, sortKey, sortDirection);
 				this.currentSortKey = sortKey;
-			}
+			},
+			pagination(e, direction) {
+				this.getData(e, this.apiData[ENDPOINT][direction]);
+			},
 		}
 	}
 };

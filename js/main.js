@@ -24,12 +24,13 @@ const initVue = element => {
 		el: `[data-endpoint=${ENDPOINT}]`,
 		data: {
 			apiData: {},
-			currentSortKey: '',
+			currentSortKey: null,
+			currentSortDirection: DEFAULT_SORT_DIRECTION,
 			endpoint: ENDPOINT,
-			errorMessage: '',
+			errorMessage: null,
 			hasError: true,
 			isLoading: false,
-			loadingMessage: '',
+			loadingMessage: null,
 			hasPrevious: false,
 			hasNext: false
 		},
@@ -45,11 +46,13 @@ const initVue = element => {
 						this.hasPrevious = !!this.apiData[ENDPOINT].previous;
 						this.hasNext = !!this.apiData[ENDPOINT].next;
 						this.isLoading = false;
+						if (this.currentSortKey) this.apiData[ENDPOINT].results = sortData(this.apiData[ENDPOINT].results, this.currentSortKey, this.currentSortDirection);
 					})
 					.catch(error => {
 						this.isLoading = false;
 						this.hasError = true;
 						this.errorMessage = `Sorry, there's been a problem getting /${ENDPOINT}`;
+						console.error(error);
 					});
 			},
 			sort(e) {
@@ -59,6 +62,7 @@ const initVue = element => {
 				const sortDirection = selectedOption.dataset.sortDirection || DEFAULT_SORT_DIRECTION;
 				this.apiData[ENDPOINT].results = sortData(this.apiData[ENDPOINT].results, sortKey, sortDirection);
 				this.currentSortKey = sortKey;
+				this.currentSortDirection = sortDirection;
 			},
 			pagination(e, direction) {
 				this.getData(e, this.apiData[ENDPOINT][direction]);

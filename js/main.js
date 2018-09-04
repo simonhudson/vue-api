@@ -20,14 +20,14 @@ const sortData = (data, sortKey, sortDirection = DEFAULT_SORT_DIRECTION) => {
 
 const DISPLAY_DATA = {
 	people: [
-		{ string: 'Name', value: 'name' },
-		{ string: 'Mass', value: 'mass' },
-		{ string: 'Height', value: 'height'},
-		{ string: 'Gender', value: 'gender'}
+		{ string: 'Name', value: 'name', isSortable: true, sortDirection: 'ascending' },
+		{ string: 'Mass', value: 'mass', isSortable: true, sortDirection: 'descending' },
+		{ string: 'Height', value: 'height', isSortable: true, sortDirection: 'descending'},
+		{ string: 'Gender', value: 'gender', isSortable: true, sortDirection: 'ascending' }
 	],
 	films: [
-		{ string: 'Title', value: 'title' },
-		{ string: 'Release date', value: 'release_date' }
+		{ string: 'Title', value: 'title', isSortable: true, sortDirection: 'ascending' },
+		{ string: 'Release date', value: 'release_date', isSortable: true, sortDirection: 'ascending' }
 	]
 };
 
@@ -54,7 +54,7 @@ const initVue = element => {
 				this.displayData = DISPLAY_DATA[ENDPOINT];
 			},
 			setSortOptions() {
-				this.sortOptions = this.displayData;
+				this.sortOptions = this.displayData.filter(item => item.isSortable === true);
 			},
 			updateData(data) {
 				this.apiData[ENDPOINT] = data;

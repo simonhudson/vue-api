@@ -18,23 +18,44 @@ const sortData = (data, sortKey, sortDirection = DEFAULT_SORT_DIRECTION) => {
 	return sorted;
 };
 
+const DISPLAY_DATA = {
+	people: [
+		{ string: 'Name', value: 'name' },
+		{ string: 'Mass', value: 'mass' },
+		{ string: 'Height', value: 'height'},
+		{ string: 'Gender', value: 'gender'}
+	],
+	films: [
+		{ string: 'Title', value: 'title' },
+		{ string: 'Release date', value: 'release_date' }
+	]
+};
+
 const initVue = element => {
 	const ENDPOINT = element.dataset.endpoint;
 	return {
 		el: `[data-endpoint=${ENDPOINT}]`,
 		data: {
 			apiData: {},
-			currentSortKey: null,
 			currentSortDirection: DEFAULT_SORT_DIRECTION,
+			currentSortKey: null,
+			displayData: null,
 			endpoint: ENDPOINT,
 			errorMessage: null,
 			hasError: true,
+			hasNext: false,
+			hasPrevious: false,
 			isLoading: false,
 			loadingMessage: null,
-			hasPrevious: false,
-			hasNext: false
+			sortOptions: null
 		},
 		methods: {
+			setDisplayData() {
+				this.displayData = DISPLAY_DATA[ENDPOINT];
+			},
+			setSortOptions() {
+				this.sortOptions = this.displayData;
+			},
 			updateData(data) {
 				this.apiData[ENDPOINT] = data;
 				this.hasPrevious = !!this.apiData[ENDPOINT].previous;
@@ -51,6 +72,8 @@ const initVue = element => {
 				fetch(url)
 					.then(response => response.json())
 					.then(data => {
+						this.setDisplayData();
+						this.setSortOptions();
 						if (callback) callback(data);
 						else this.updateData(data);
 					})

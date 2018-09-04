@@ -19,20 +19,14 @@
 				<label for="sort-people">Sort</label>
 				<select id="sort-people" v-on:change="sort">
 					<option value="null">Choose</option>
-					<option value="name">Name</option>
-					<option data-sort-direction="descending" value="height">Height</option>
-					<option data-sort-direction="descending" value="mass">Mass</option>
+					<option v-for="item in sortOptions" :value="item.value">{{item.string}}</th>
 				</select>
 				<table>
 					<tr>
-						<th id="name">Name</th>
-						<th id="height">Height</th>
-						<th id="mass">Mass</th>
+						<th v-for="item in displayData" :id="item.value">{{item.string}}</th>
 					</tr>
 					<tr v-for="(person, index) in apiData.people.results">
-						<td headers="name">{{ person.name }}</td>
-						<td headers="height">{{ person.height }}</td>
-						<td headers="mass">{{ person.mass }}</td>
+						<td v-for="item in displayData" :headers="item.value">{{person[item.value]}}</td>
 					</tr>
 				</table>
 				<button v-if="hasPrevious" v-on:click="pagination($event, 'previous')">Previous page</button>
@@ -40,14 +34,27 @@
 			</div>
 		</div>
 		
+		<hr/>
+		
 		<div class="vue-instance" data-endpoint="films">
 			<button v-on:click="getData">Films</button>
 			<p v-show="isLoading">{{loadingMessage}}</p>
 			<p v-show="hasError">{{errorMessage}}</p>
 			<div v-if="apiData.films">
-				<ul>
-					<li v-for="(film, index) in apiData.films.results">{{film.title}}</li>
-				</ul>
+				<p v-if="currentSortKey">Current sort: <strong>{{currentSortKey}}</strong></p>
+				<label for="sort-films">Sort</label>
+				<select id="sort-films" v-on:change="sort">
+					<option value="null">Choose</option>
+					<option v-for="item in sortOptions" :value="item.value">{{item.string}}</th>
+				</select>
+				<table>
+					<tr>
+						<th v-for="item in displayData" :id="item.value">{{item.string}}</th>
+					</tr>
+					<tr v-for="(film, index) in apiData.films.results">
+						<td v-for="item in displayData" :headers="item.value">{{film[item.value]}}</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 

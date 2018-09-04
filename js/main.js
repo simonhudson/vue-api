@@ -50,7 +50,7 @@ const initVue = element => {
 					})
 					.catch(error => {
 						this.isLoading = false;
-						this.hasError = true;
+						this.hasError = true;	
 						this.errorMessage = `Sorry, there's been a problem getting /${ENDPOINT}`;
 						console.error(error);
 					});

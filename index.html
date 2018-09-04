@@ -15,13 +15,13 @@
 			<p v-show="isLoading">{{loadingMessage}}</p>
 			<p v-show="hasError">{{errorMessage}}</p>
 			<div v-if="apiData.people">
-				<p v-if="apiData.people.currentSortKey">Current sort: <strong>{{apiData.people.currentSortKey}}</strong></p>
+				<p v-if="currentSortKey">Current sort: <strong>{{currentSortKey}}</strong></p>
 				<label for="sort-people">Sort</label>
 				<select id="sort-people" v-on:change="sort">
 					<option value="null">Choose</option>
-					<option data-sort-direction="ascending" value="name">Name</option>
-					<option data-sort-direction="descending" value="height">Height</option>
-					<option data-sort-direction="ascending" value="mass">Mass</option>
+					<option value="name">Name</option>
+					<option value="height">Height</option>
+					<option value="mass">Mass</option>
 				</select>
 				<table>
 					<tr>
@@ -35,18 +35,31 @@
 						<td headers="mass">{{ person.mass }}</td>
 					</tr>
 				</table>
-				</ul>
 			</div>
 		</div>
 		<div class="vue-instance" data-endpoint="films">	
 			<button v-on:click="getData">Films</button>
 			<p v-show="isLoading">{{loadingMessage}}</p>
 			<p v-show="hasError">{{errorMessage}}</p>
-			<ul v-if="apiData.films">
-				<li v-for="film in apiData.films.results">
-				    {{ film.title }}
-				</li>
-			</ul>
+			<div v-if="apiData.films">
+				<p v-if="currentSortKey">Current sort: <strong>{{currentSortKey}}</strong></p>
+				<label for="sort-films">Sort</label>
+				<select id="sort-films" v-on:change="sort">
+					<option value="null">Choose</option>
+					<option value="title">Title</option>
+					<option value="release_date">Release date</option>
+				</select>
+				<table>
+					<tr>
+						<th id="title">Title</th>
+						<th id="release_date">Release date</th>
+					</tr>
+					<tr v-for="(film, index) in apiData.films.results">
+						<td headers="title">{{ film.title }}</td>
+						<td headers="release_date">{{ film.release_date }}</td>
+					</tr>
+				</table>
+			</div>
 		</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

@@ -1,10 +1,11 @@
 'use strict';
 
 const API_URL = 'https://swapi.co/api/';
+const DEFAULT_SORT_DIRECTION = 'ascending';
 
 const toInt = value => parseInt(value, 10)
 
-const sortData = (data, sortKey, sortDirection = 'ascending') => {
+const sortData = (data, sortKey, sortDirection = DEFAULT_SORT_DIRECTION) => {
 	const isDescending = sortDirection === 'descending';
 	const sorted = data.sort((a, b) => {
 		let sortKeyA = a[sortKey];
@@ -23,6 +24,7 @@ const initVue = element => {
 		el: `[data-endpoint=${endpoint}]`,
 		data: {
 			apiData: {},
+			currentSortKey: '',
 			endpoint,
 			errorMessage: '',
 			hasError: true,
@@ -38,10 +40,6 @@ const initVue = element => {
 					.then(response => response.json())
 					.then(data => {
 						this.apiData[endpoint] = data;
-						this.apiData[endpoint].currentSortKey = '';
-						console.log('--------------------');
-						console.log(this.apiData[endpoint]);
-						console.log('--------------------');
 						this.isLoading = false;
 					})
 					.catch(error => {
@@ -54,12 +52,9 @@ const initVue = element => {
 				const selectedOption = e.target.selectedOptions[0];
 				const sortKey = selectedOption.value;
 				if (sortKey === 'null') return;
-				const sortDirection = selectedOption.dataset.sortDirection;
+				const sortDirection = selectedOption.dataset.sortDirection || DEFAULT_SORT_DIRECTION;
 				this.apiData[endpoint].results = sortData(this.apiData[endpoint].results, sortKey, sortDirection);
-				this.apiData[endpoint].currentSortKey = sortKey;
-				console.log('--------------------');
-				console.log(this.apiData[endpoint]);
-				console.log('--------------------');
+				this.currentSortKey = sortKey;
 			}
 		}
 	}

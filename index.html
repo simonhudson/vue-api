@@ -39,6 +39,17 @@
 				<button v-if="hasNext" v-on:click="pagination($event, 'next')">Next page</button>
 			</div>
 		</div>
+		
+		<div class="vue-instance" data-endpoint="films">
+			<button v-on:click="getData">Films</button>
+			<p v-show="isLoading">{{loadingMessage}}</p>
+			<p v-show="hasError">{{errorMessage}}</p>
+			<div v-if="apiData.films">
+				<ul>
+					<li v-for="(film, index) in apiData.films.results">{{film.title}}</li>
+				</ul>
+			</div>
+		</div>
 
 		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 		<script src="js/main.js"></script>

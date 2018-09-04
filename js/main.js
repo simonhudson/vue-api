@@ -35,18 +35,24 @@ const initVue = element => {
 			hasNext: false
 		},
 		methods: {
-			getData(e, url = `${API_URL}${ENDPOINT}`) {
+			updateData(data) {
+				this.apiData[ENDPOINT] = data;
+				this.hasPrevious = !!this.apiData[ENDPOINT].previous;
+				this.hasNext = !!this.apiData[ENDPOINT].next;
+				this.isLoading = false;
+				if (this.currentSortKey) this.apiData[ENDPOINT].results = sortData(this.apiData[ENDPOINT].results, this.currentSortKey, this.currentSortDirection);
+			},
+			appendData(data) {
+				this.apiData[ENDPOINT].results = [...this.apiData[ENDPOINT].results, ...data.results];
+			},
+			getData(e, url = `${API_URL}${ENDPOINT}`, callback) {
 				this.isLoading = true;
 				this.loadingMessage = `Loading /${ENDPOINT}`;
-				this.apiData[ENDPOINT] = null;
 				fetch(url)
 					.then(response => response.json())
 					.then(data => {
-						this.apiData[ENDPOINT] = data;
-						this.hasPrevious = !!this.apiData[ENDPOINT].previous;
-						this.hasNext = !!this.apiData[ENDPOINT].next;
-						this.isLoading = false;
-						if (this.currentSortKey) this.apiData[ENDPOINT].results = sortData(this.apiData[ENDPOINT].results, this.currentSortKey, this.currentSortDirection);
+						if (callback) callback(data);
+						else this.updateData(data);
 					})
 					.catch(error => {
 						this.isLoading = false;
@@ -67,6 +73,9 @@ const initVue = element => {
 			pagination(e, direction) {
 				this.getData(e, this.apiData[ENDPOINT][direction]);
 			},
+			showMore(e) {
+				this.getData(e, this.apiData[ENDPOINT].next, this.appendData);
+			}
 		}
 	}
 };

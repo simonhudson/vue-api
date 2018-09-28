@@ -21,6 +21,8 @@
 					<option value="null">Choose</option>
 					<option v-for="item in sortOptions" :value="item.value">{{item.string}}</th>
 				</select>
+				<label for="filter-people">Filter</label>
+				<input id="filter-people" type="text" v-on:keyup="filter"/>
 				<table>
 					<tr>
 						<th v-for="item in displayData" :id="item.value">{{item.string}}</th>

@@ -18,6 +18,11 @@ const sortData = (data, sortKey, sortDirection = DEFAULT_SORT_DIRECTION) => {
 	return sorted;
 };
 
+const filterData = (data, query) => {
+	const filtered = data.filter(item => item.name.includes(query));
+	return filtered;
+};
+
 const DISPLAY_DATA = {
 	people: [
 		{ string: 'Name', value: 'name', isSortable: true, sortDirection: 'ascending' },
@@ -98,6 +103,15 @@ const initVue = element => {
 			},
 			showMore(e) {
 				this.getData(e, this.apiData[ENDPOINT].next, this.appendData);
+			},
+			filter(e) {
+				console.log('--------------------');
+				console.log(this.apiData[ENDPOINT].results);
+				console.log('--------------------');
+				this.apiData[ENDPOINT].results = filterData(this.apiData[ENDPOINT].results, e.target.value);
+				console.log('--------------------');
+				console.log(this.apiData[ENDPOINT].results);
+				console.log('--------------------');
 			}
 		}
 	}
